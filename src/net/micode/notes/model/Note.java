@@ -18,6 +18,7 @@ package net.micode.notes.model;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
+//Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher 和ContentUris 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
