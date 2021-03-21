@@ -16,18 +16,18 @@
 
 package net.micode.notes.widget;
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetManager;//用来更新widiget的状态和获取已经安装的widget的信息
 import android.appwidget.AppWidgetProvider;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.database.Cursor;//外部导入数据库
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import net.micode.notes.R;
 import net.micode.notes.data.Notes;
-import net.micode.notes.data.Notes.NoteColumns;
+import net.micode.notes.data.Notes.NoteColumns;//column一般指的是数据库列，便签数据库列
 import net.micode.notes.tool.ResourceParser;
 import net.micode.notes.ui.NoteEditActivity;
 import net.micode.notes.ui.NotesListActivity;
@@ -46,7 +46,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
     private static final String TAG = "NoteWidgetProvider";
 
     @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
+    public void onDeleted(Context context, int[] appWidgetIds) {//删除AppWight时使用
         ContentValues values = new ContentValues();
         values.put(NoteColumns.WIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         for (int i = 0; i < appWidgetIds.length; i++) {
@@ -65,7 +65,7 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                 null);
     }
 
-    protected void update(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    protected void update(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {//当用户向桌面添加AppWidget时被调用
         update(context, appWidgetManager, appWidgetIds, false);
     }
 
@@ -100,15 +100,15 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                     c.close();
                 }
 
-                RemoteViews rv = new RemoteViews(context.getPackageName(), getLayoutId());
+                RemoteViews rv = new RemoteViews(context.getPackageName(), getLayoutId());//AppWidget与程序交互
                 rv.setImageViewResource(R.id.widget_bg_image, getBgResourceId(bgId));
                 intent.putExtra(Notes.INTENT_EXTRA_BACKGROUND_ID, bgId);
                 /**
                  * Generate the pending intent to start host for the widget
                  */
-                PendingIntent pendingIntent = null;
+                PendingIntent pendingIntent = null;//设置pendingIntent的作用
                 if (privacyMode) {
-                    rv.setTextViewText(R.id.widget_text,
+                    rv.setTextViewText(R.id.widget_text,//调用setTextViewText()来设置TextView组件的文本
                             context.getString(R.string.widget_under_visit_mode));
                     pendingIntent = PendingIntent.getActivity(context, appWidgetIds[i], new Intent(
                             context, NotesListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -117,8 +117,8 @@ public abstract class NoteWidgetProvider extends AppWidgetProvider {
                     pendingIntent = PendingIntent.getActivity(context, appWidgetIds[i], intent,
                             PendingIntent.FLAG_UPDATE_CURRENT);
                 }
-
-                rv.setOnClickPendingIntent(R.id.widget_text, pendingIntent);
+                //绑定事件
+                rv.setOnClickPendingIntent(R.id.widget_text, pendingIntent);//调用setOnClickPendingIntent() 来设置Button的点击响应事件
                 appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
             }
         }
