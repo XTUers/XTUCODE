@@ -19,7 +19,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 //Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher 和ContentUris 
-import android.content.ContentValues;
+import android.content.ContentValues;//**
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.net.Uri;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 
 public class Note {
-    private ContentValues mNoteDiffValues;
+    private ContentValues mNoteDiffValues;//定义存储
     private NoteData mNoteData;
     private static final String TAG = "Note";
     /**
@@ -44,24 +44,24 @@ public class Note {
      */
     public static synchronized long getNewNoteId(Context context, long folderId) {
         // Create a new note in the database
-        ContentValues values = new ContentValues();
-        long createdTime = System.currentTimeMillis();
-        values.put(NoteColumns.CREATED_DATE, createdTime);
-        values.put(NoteColumns.MODIFIED_DATE, createdTime);
+        ContentValues values = new ContentValues();//定义一个ContentValues的对象
+        long createdTime = System.currentTimeMillis();//获取当前时间
+        values.put(NoteColumns.CREATED_DATE, createdTime);//将时间存入
+        values.put(NoteColumns.MODIFIED_DATE, createdTime);//将修改的时间存入
         values.put(NoteColumns.TYPE, Notes.TYPE_NOTE);
-        values.put(NoteColumns.LOCAL_MODIFIED, 1);
-        values.put(NoteColumns.PARENT_ID, folderId);
+        values.put(NoteColumns.LOCAL_MODIFIED, 1);//
+        values.put(NoteColumns.PARENT_ID, folderId);//将ID存入
         Uri uri = context.getContentResolver().insert(Notes.CONTENT_NOTE_URI, values);
 
         long noteId = 0;
         try {
-            noteId = Long.valueOf(uri.getPathSegments().get(1));
+            noteId = Long.valueOf(uri.getPathSegments().get(1));//一直获取noteID直到获得，返回1
         } catch (NumberFormatException e) {
-            Log.e(TAG, "Get note id error :" + e.toString());
+            Log.e(TAG, "Get note id error :" + e.toString());//否则，打印程序中的错误信息(loge+tab)
             noteId = 0;
         }
         if (noteId == -1) {
-            throw new IllegalStateException("Wrong note id:" + noteId);
+            throw new IllegalStateException("Wrong note id:" + noteId);//如果没有获得noteID打印错误的ID
         }
         return noteId;
     }
@@ -97,17 +97,17 @@ public class Note {
         mNoteData.setCallData(key, value);
     }
 
-    public boolean isLocalModified() {
+    public boolean isLocalModified() {//noteID是否进行了修改判断
         return mNoteDiffValues.size() > 0 || mNoteData.isLocalModified();
     }
 
     public boolean syncNote(Context context, long noteId) {
-        if (noteId <= 0) {
+        if (noteId <= 0) {//noteID不合法修改提示
             throw new IllegalArgumentException("Wrong note id:" + noteId);
         }
 
         if (!isLocalModified()) {
-            return true;
+            return true;//修改并合法返回true
         }
 
         /**
