@@ -117,21 +117,22 @@ public class Note {
          */
         if (context.getContentResolver().update(
                 ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI, noteId), mNoteDiffValues, null,
-                null) == 0) {
+                null) == 0) {/*假设给定的是：Uri.parse("content://com.ljq.providers.personprovider/person/10")，
+            那么将会对主机名为com.ljq.providers.personprovider的ContentProvider进行操作，操作的数据为 person表中id为10的记录。*/
             Log.e(TAG, "Update note error, should not happen");
-            // Do not return, fall through
+            // Do not return, fall through Log.e()：打印程序中的错误信息(loge+tab)
         }
-        mNoteDiffValues.clear();
+        mNoteDiffValues.clear();//清除mNoteDiffValues中的数据避免数据的叠加。
 
         if (mNoteData.isLocalModified()
                 && (mNoteData.pushIntoContentResolver(context, noteId) == null)) {
-            return false;
+            return false;//如果mNoteData被修改并且noteID没存入，返回false
         }
 
         return true;
     }
 
-    private class NoteData {
+    private class NoteData {//定义变量
         private long mTextDataId;
 
         private ContentValues mTextDataValues;
@@ -142,7 +143,7 @@ public class Note {
 
         private static final String TAG = "NoteData";
 
-        public NoteData() {
+        public NoteData() {//new
             mTextDataValues = new ContentValues();
             mCallDataValues = new ContentValues();
             mTextDataId = 0;
@@ -155,25 +156,25 @@ public class Note {
 
         void setTextDataId(long id) {
             if(id <= 0) {
-                throw new IllegalArgumentException("Text data id should larger than 0");
+                throw new IllegalArgumentException("Text data id should larger than 0");//便签内容的id合法性限制
             }
             mTextDataId = id;
         }
 
         void setCallDataId(long id) {
             if (id <= 0) {
-                throw new IllegalArgumentException("Call data id should larger than 0");
+                throw new IllegalArgumentException("Call data id should larger than 0");//便签CallDataId？？合法性限制
             }
             mCallDataId = id;
         }
 
         void setCallData(String key, String value) {
-            mCallDataValues.put(key, value);
+            mCallDataValues.put(key, value);//记录密码和内容？
             mNoteDiffValues.put(NoteColumns.LOCAL_MODIFIED, 1);
-            mNoteDiffValues.put(NoteColumns.MODIFIED_DATE, System.currentTimeMillis());
+            mNoteDiffValues.put(NoteColumns.MODIFIED_DATE, System.currentTimeMillis());//记录修改内容和修改时间
         }
 
-        void setTextData(String key, String value) {
+        void setTextData(String key, String value) {//语句列
             mTextDataValues.put(key, value);
             mNoteDiffValues.put(NoteColumns.LOCAL_MODIFIED, 1);
             mNoteDiffValues.put(NoteColumns.MODIFIED_DATE, System.currentTimeMillis());
