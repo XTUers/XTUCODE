@@ -71,13 +71,13 @@ public class Note {
         mNoteData = new NoteData();
     }
 
-    public void setNoteValue(String key, String value) {
+    public void setNoteValue(String key, String value) {//修改的列名，值
         mNoteDiffValues.put(key, value);
         mNoteDiffValues.put(NoteColumns.LOCAL_MODIFIED, 1);
         mNoteDiffValues.put(NoteColumns.MODIFIED_DATE, System.currentTimeMillis());
     }
 
-    public void setTextData(String key, String value) {
+    public void setTextData(String key, String value) {//未修改的
         mNoteData.setTextData(key, value);
     }
 
@@ -180,18 +180,18 @@ public class Note {
             mNoteDiffValues.put(NoteColumns.MODIFIED_DATE, System.currentTimeMillis());
         }
 
-        Uri pushIntoContentResolver(Context context, long noteId) {
+        Uri pushIntoContentResolver(Context context, long noteId) {//存储文本和ID
             /**
              * Check for safety
              */
             if (noteId <= 0) {
-                throw new IllegalArgumentException("Wrong note id:" + noteId);
+                throw new IllegalArgumentException("Wrong note id:" + noteId);//限制noteID
             }
 
             ArrayList<ContentProviderOperation> operationList = new ArrayList<ContentProviderOperation>();
-            ContentProviderOperation.Builder builder = null;
+            ContentProviderOperation.Builder builder = null;//？
 
-            if(mTextDataValues.size() > 0) {
+            if(mTextDataValues.size() > 0) {//文本不为空
                 mTextDataValues.put(DataColumns.NOTE_ID, noteId);
                 if (mTextDataId == 0) {
                     mTextDataValues.put(DataColumns.MIME_TYPE, TextNote.CONTENT_ITEM_TYPE);
@@ -200,8 +200,8 @@ public class Note {
                     try {
                         setTextDataId(Long.valueOf(uri.getPathSegments().get(1)));
                     } catch (NumberFormatException e) {
-                        Log.e(TAG, "Insert new text data fail with noteId" + noteId);
-                        mTextDataValues.clear();
+                        Log.e(TAG, "Insert new text data fail with noteId" + noteId);//打印程序中的错误信息，某ID插入文本失败
+                        mTextDataValues.clear();//清空文本
                         return null;
                     }
                 } else {
