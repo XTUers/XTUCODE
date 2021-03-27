@@ -39,25 +39,25 @@ public class WorkingNote {
     private long mNoteId;
     // Note content
     private String mContent;
-    // Note mode
+    // Note mode模式
     private int mMode;
-
+    //提醒时间
     private long mAlertDate;
-
+   //修改时间
     private long mModifiedDate;
-
+     
     private int mBgColorId;
 
     private int mWidgetId;
 
     private int mWidgetType;
-
+     //文件夹id
     private long mFolderId;
 
     private Context mContext;
 
     private static final String TAG = "WorkingNote";
-
+      //是否删除
     private boolean mIsDeleted;
 
     private NoteSettingChangedListener mNoteSettingStatusListener;
@@ -101,7 +101,7 @@ public class WorkingNote {
 
     private static final int NOTE_MODIFIED_DATE_COLUMN = 5;
 
-    // New note construct
+    // New note construct创建新便签
     private WorkingNote(Context context, long folderId) {
         mContext = context;
         mAlertDate = 0;
@@ -111,21 +111,21 @@ public class WorkingNote {
         mNoteId = 0;
         mIsDeleted = false;
         mMode = 0;
-        mWidgetType = Notes.TYPE_WIDGET_INVALIDE;
+        mWidgetType = Notes.TYPE_WIDGET_INVALIDE;//重置内容
     }
 
-    // Existing note construct
+    // Existing note construct已存在便签创建，即把已存在内容导入
     private WorkingNote(Context context, long noteId, long folderId) {
         mContext = context;
         mNoteId = noteId;
         mFolderId = folderId;
         mIsDeleted = false;
         mNote = new Note();
-        loadNote();
+        loadNote();//从服务器加载数据,并把返回的数据放置到指定的元素中
     }
-
+     //获取提供信息者的相应信息给变量mFolderId， mBgColorId等
     private void loadNote() {
-        Cursor cursor = mContext.getContentResolver().query(
+        Cursor cursor = mContext.getContentResolver().query(//以下括号内的为信息的提供者，即信息提供者为mNoteID
                 ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI, mNoteId), NOTE_PROJECTION, null,
                 null, null);
 
