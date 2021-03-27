@@ -212,7 +212,7 @@ public class WorkingNote {
         }
     }
 
-    public boolean existInDatabase() {//判断师范存在
+    public boolean existInDatabase() {//判断id是否存在
         return mNoteId > 0;
     }
 
