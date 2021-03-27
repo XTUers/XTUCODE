@@ -101,7 +101,7 @@ public class WorkingNote {
 
     private static final int NOTE_MODIFIED_DATE_COLUMN = 5;
 
-    // New note construct创建新便签
+    // New note construct新便签定义变量
     private WorkingNote(Context context, long folderId) {
         mContext = context;
         mAlertDate = 0;
@@ -123,7 +123,7 @@ public class WorkingNote {
         mNote = new Note();
         loadNote();//从服务器加载数据,并把返回的数据放置到指定的元素中
     }
-     //获取提供信息者的相应信息给变量mFolderId， mBgColorId等
+     //获取提供信息者（mNoteId）的相应所有信息给变量mFolderId， mBgColorId等，一个查找函数
     private void loadNote() {
         Cursor cursor = mContext.getContentResolver().query(//以下括号内的为信息的提供者，即信息提供者为mNoteID
                 ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI, mNoteId), NOTE_PROJECTION, null,
@@ -140,13 +140,13 @@ public class WorkingNote {
             }
             cursor.close();
         } else {
-            Log.e(TAG, "No note with id:" + mNoteId);
+            Log.e(TAG, "No note with id:" + mNoteId);//否则输出该ID无便签
             throw new IllegalArgumentException("Unable to find note with id " + mNoteId);
-        }
+        }//输出找不到该id的便签
         loadNoteData();
     }
 
-    private void loadNoteData() {
+    private void loadNoteData() {//该函数实现某个id根据关键词句来查询相应便签
         Cursor cursor = mContext.getContentResolver().query(Notes.CONTENT_DATA_URI, DATA_PROJECTION,
                 DataColumns.NOTE_ID + "=?", new String[] {
                     String.valueOf(mNoteId)
@@ -174,7 +174,7 @@ public class WorkingNote {
         }
     }
 
-    public static WorkingNote createEmptyNote(Context context, long folderId, int widgetId,
+    public static WorkingNote createEmptyNote(Context context, long folderId, int widgetId,//创建新便签具体操作
             int widgetType, int defaultBgColorId) {
         WorkingNote note = new WorkingNote(context, folderId);
         note.setBgColorId(defaultBgColorId);
@@ -183,11 +183,11 @@ public class WorkingNote {
         return note;
     }
 
-    public static WorkingNote load(Context context, long id) {
+    public static WorkingNote load(Context context, long id) {//下载便签
         return new WorkingNote(context, id, 0);
     }
 
-    public synchronized boolean saveNote() {
+    public synchronized boolean saveNote() {//该id是否保存便签以及是否保存对已有便签的内容修改
         if (isWorthSaving()) {
             if (!existInDatabase()) {
                 if ((mNoteId = Note.getNewNoteId(mContext, mFolderId)) == 0) {
