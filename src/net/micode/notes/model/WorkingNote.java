@@ -45,9 +45,9 @@ public class WorkingNote {
     private long mAlertDate;
    //修改时间
     private long mModifiedDate;
-     
+     //背景颜色
     private int mBgColorId;
-
+     
     private int mWidgetId;
 
     private int mWidgetType;
@@ -239,7 +239,7 @@ public class WorkingNote {
         }
     }
 
-    public void markDeleted(boolean mark) {
+    public void markDeleted(boolean mark) {//标记数据是否被删除，被删除的在普通查询中不能查到
         mIsDeleted = mark;
         if (mWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID
                 && mWidgetType != Notes.TYPE_WIDGET_INVALIDE && mNoteSettingStatusListener != null) {
@@ -247,7 +247,7 @@ public class WorkingNote {
         }
     }
 
-    public void setBgColorId(int id) {
+    public void setBgColorId(int id) {//设置ID背景的颜色
         if (id != mBgColorId) {
             mBgColorId = id;
             if (mNoteSettingStatusListener != null) {
@@ -257,7 +257,7 @@ public class WorkingNote {
         }
     }
 
-    public void setCheckListMode(int mode) {
+    public void setCheckListMode(int mode) {//设置便签清单
         if (mMode != mode) {
             if (mNoteSettingStatusListener != null) {
                 mNoteSettingStatusListener.onCheckListModeChanged(mMode, mode);
@@ -281,7 +281,7 @@ public class WorkingNote {
         }
     }
 
-    public void setWorkingText(String text) {
+    public void setWorkingText(String text) {//设置文本框
         if (!TextUtils.equals(mContent, text)) {
             mContent = text;
             mNote.setTextData(DataColumns.CONTENT, mContent);
