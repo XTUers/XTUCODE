@@ -187,7 +187,7 @@ public class WorkingNote {
         return new WorkingNote(context, id, 0);
     }
 
-    public synchronized boolean saveNote() {//该id是否保存便签以及是否保存对已有便签的内容修改
+    public synchronized boolean saveNote() {//如果保存便签的内容修改后的具体保存操作
         if (isWorthSaving()) {
             if (!existInDatabase()) {
                 if ((mNoteId = Note.getNewNoteId(mContext, mFolderId)) == 0) {
@@ -212,11 +212,11 @@ public class WorkingNote {
         }
     }
 
-    public boolean existInDatabase() {
+    public boolean existInDatabase() {//判断师范存在
         return mNoteId > 0;
     }
 
-    private boolean isWorthSaving() {
+    private boolean isWorthSaving() {//该id是否保存便签修改
         if (mIsDeleted || (!existInDatabase() && TextUtils.isEmpty(mContent))
                 || (existInDatabase() && !mNote.isLocalModified())) {
             return false;
@@ -229,7 +229,7 @@ public class WorkingNote {
         mNoteSettingStatusListener = l;
     }
 
-    public void setAlertDate(long date, boolean set) {
+    public void setAlertDate(long date, boolean set) {//设置提醒时间以及提醒实现
         if (date != mAlertDate) {
             mAlertDate = date;
             mNote.setNoteValue(NoteColumns.ALERTED_DATE, String.valueOf(mAlertDate));
