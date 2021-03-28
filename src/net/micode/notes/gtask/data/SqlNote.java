@@ -22,7 +22,6 @@ package net.micode.notes.gtask.data;
  * 功能描述：
  * 实现过程：
  * 参数注解： 
- * Made By CuiCan
  */
 import android.appwidget.AppWidgetManager;
 import android.content.ContentResolver;
@@ -49,7 +48,6 @@ public class SqlNote {
 	/*
 	 * 功能描述：得到类的简写名称存入字符串TAG中
 	 * 实现过程：调用getSimpleName ()函数
-	 * Made By CuiCan
 	 */
     private static final String TAG = SqlNote.class.getSimpleName();
 
@@ -140,7 +138,6 @@ public class SqlNote {
      * 功能描述：构造函数
      * 参数注解： mIsCreate用于标示构造方式
      * 参数注解： 
-     * Made By CuiCan
      */
     //构造函数只有context，对所有的变量进行初始化
     public SqlNote(Context context) {
@@ -169,7 +166,6 @@ public class SqlNote {
      * 功能描述：构造函数
      * 参数注解： mIsCreate用于标示构造方式
      * 参数注解： 
-     * Made By CuiCan
      */
     //构造函数有context和一个数据库的cursor，多数变量通过cursor指向的一条记录直接进行初始化
     public SqlNote(Context context, Cursor c) {
@@ -189,7 +185,6 @@ public class SqlNote {
      * 功能描述：构造函数
      * 参数注解： mIsCreate用于标示构造方式
      * 参数注解： 
-     * Made By CuiCan
      */
     public SqlNote(Context context, long id) {
         mContext = context;
@@ -205,7 +200,6 @@ public class SqlNote {
 
     /*
      * 功能描述：通过id从光标处加载数据
-     * Made By CuiCan
      */
     private void loadFromCursor(long id) {
         Cursor c = null;
@@ -229,7 +223,6 @@ public class SqlNote {
 
     /*
      * 功能描述：通过游标从光标处加载数据
-     * Made By CuiCan
      */
     private void loadFromCursor(Cursor c) {
     	//直接从一条记录中的获得以下变量的初始值
@@ -249,7 +242,6 @@ public class SqlNote {
 
     /*
      * 功能描述：通过content机制获取共享数据并加载到数据库当前游标处
-     * 参数注解： 
      * Made By CuiCan
      */
     private void loadDataContent() {
@@ -281,7 +273,6 @@ public class SqlNote {
     /*
      * 功能描述：设置通过content机制用于共享的数据信息
      * 参数注解： 
-     * Made By CuiCan
      */
     public boolean setContent(JSONObject js) {
         try {
@@ -418,7 +409,6 @@ public class SqlNote {
     /*
      * 功能描述：获取content机制提供的数据并加载到note中
      * 参数注解： 
-     * Made By CuiCan
      */
     public JSONObject getContent() {
         try {
@@ -471,7 +461,6 @@ public class SqlNote {
     /*
      * 功能描述：给当前id设置父id
      * 参数注解： 
-     * Made By CuiCan
      */
     public void setParentId(long id) {
         mParentId = id;
@@ -481,7 +470,6 @@ public class SqlNote {
     /*
      * 功能描述：给当前id设置Gtaskid
      * 参数注解： 
-     * Made By CuiCan
      */
     public void setGtaskId(String gid) {
         mDiffNoteValues.put(NoteColumns.GTASK_ID, gid);
@@ -490,7 +478,6 @@ public class SqlNote {
     /*
      * 功能描述：给当前id设置同步id
      * 参数注解： 
-     * Made By CuiCan
      */
     public void setSyncId(long syncId) {
         mDiffNoteValues.put(NoteColumns.SYNC_ID, syncId);
@@ -499,7 +486,6 @@ public class SqlNote {
     /*
      * 功能描述：初始化本地修改，即撤销所有当前修改
      * 参数注解： 
-     * Made By CuiCan
      */
     public void resetLocalModified() {
         mDiffNoteValues.put(NoteColumns.LOCAL_MODIFIED, 0);
@@ -508,7 +494,6 @@ public class SqlNote {
     /*
      * 功能描述：获得当前id
      * 参数注解： 
-     * Made By CuiCan
      */
     public long getId() {
         return mId;
@@ -517,7 +502,6 @@ public class SqlNote {
     /*
      * 功能描述：获得当前id的父id
      * 参数注解： 
-     * Made By CuiCan
      */
     public long getParentId() {
         return mParentId;
@@ -526,7 +510,6 @@ public class SqlNote {
     /*
      * 功能描述：获取小片段即用于显示的部分便签内容
      * 参数注解： 
-     * Made By CuiCan
      */
     public String getSnippet() {
         return mSnippet;
@@ -535,7 +518,6 @@ public class SqlNote {
     /*
      * 功能描述：判断是否为便签类型
      * 参数注解： 
-     * Made By CuiCan
      */
     public boolean isNoteType() {
         return mType == Notes.TYPE_NOTE;
@@ -544,7 +526,6 @@ public class SqlNote {
     /*
      * 功能描述：commit函数用于把当前造作所做的修改保存到数据库
      * 参数注解： 
-     * Made By CuiCan
      */
     public void commit(boolean validateVersion) {
         if (mIsCreate) {
